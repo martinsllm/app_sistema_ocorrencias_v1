@@ -36,7 +36,13 @@ class TurmaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $result = $this->turmaService->findByPk($id);
+
+        if ($result === null) {
+            return response()->json(['Erro' => 'Recurso pesquisado não existe'], 404);
+        }
+
+        return response()->json($result, 200);
     }
 
     /**
