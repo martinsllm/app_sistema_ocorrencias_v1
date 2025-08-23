@@ -18,7 +18,8 @@ class TurmaController extends Controller
      */
     public function index()
     {
-        //
+        $result = $this->turmaService->list();
+        return response()->json($result, 200);
     }
 
     /**

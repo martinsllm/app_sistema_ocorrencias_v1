@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Turma;
 use App\Services\TurmaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TurmaControllerTest extends TestCase
@@ -24,5 +24,15 @@ class TurmaControllerTest extends TestCase
 
         $this->assertEquals('101', $response->json()['codigo']);
         $response->assertStatus(201);
+    }
+
+    public function test_turma_get_all_sucessfully()
+    {
+        Turma::factory()->create();
+
+        $response = $this->getJson('/api/turma');
+
+        $this->assertTrue(is_array(json_decode($response->getContent())));
+        $response->assertStatus(200);
     }
 }
