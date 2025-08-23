@@ -48,9 +48,16 @@ class TurmaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TurmaRequest $request, string $id)
     {
-        //
+        $turma = $this->turmaService->findByPk($id);
+
+        if ($turma === null) {
+            return response()->json(['Erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404);
+        }
+
+        $result = $this->turmaService->update($turma, $request->all());
+        return response()->json($result, 200);
     }
 
     /**

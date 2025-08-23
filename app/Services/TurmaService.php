@@ -21,4 +21,11 @@ class TurmaService
         return Turma::create($data);
     }
 
+    public function update(Turma $turma, array $data): Turma
+    {
+        $turma->fill($data);
+        $turma->save();
+        return $turma;
+    }
+
 }

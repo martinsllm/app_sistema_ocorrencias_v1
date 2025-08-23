@@ -48,4 +48,18 @@ class TurmaControllerTest extends TestCase
         $this->assertEquals('101', $response->json()['codigo']);
         $response->assertStatus(200);
     }
+
+    public function test_turma_update_sucessfully()
+    {
+        $turma = Turma::factory()->create();
+
+        $data = [
+            'codigo' => '101'
+        ];
+
+        $response = $this->patchJson('/api/turma/' . $turma->id, $data);
+
+        $this->assertEquals('101', $response->json()['codigo']);
+        $response->assertStatus(200);
+    }
 }
