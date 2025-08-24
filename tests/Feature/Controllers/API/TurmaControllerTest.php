@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\API;
 
 use App\Models\Turma;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +25,7 @@ class TurmaControllerTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function test_turma_get_all_sucessfully()
+    public function test_turma_get_all_successfully()
     {
         Turma::factory()->create();
 
@@ -35,7 +35,7 @@ class TurmaControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_turma_get_by_pk_sucessfully()
+    public function test_turma_get_by_pk_successfully()
     {
         $data = [
             'codigo' => '101'
@@ -49,7 +49,7 @@ class TurmaControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_turma_update_sucessfully()
+    public function test_turma_update_successfully()
     {
         $turma = Turma::factory()->create();
 
@@ -61,5 +61,16 @@ class TurmaControllerTest extends TestCase
 
         $this->assertEquals('101', $response->json()['codigo']);
         $response->assertStatus(200);
+    }
+
+    public function test_turma_delete_successfully()
+    {
+        $turma = Turma::factory()->create();
+
+        $response = $this->deleteJson('/api/turma/' . $turma->id);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['msg'])
+            ->assertJson(['msg' => "Turma removida com sucesso!"]);
     }
 }

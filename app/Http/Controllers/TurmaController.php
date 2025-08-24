@@ -65,6 +65,14 @@ class TurmaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $turma = $this->turmaService->findByPk($id);
+
+        if ($turma === null) {
+            return response()->json(['Erro' => 'Impossível remover o registro. O recurso solicitado não existe'], 404);
+        }
+
+        $this->turmaService->delete($turma);
+
+        return response()->json(['msg' => 'Turma removida com sucesso!'], 200);
     }
 }

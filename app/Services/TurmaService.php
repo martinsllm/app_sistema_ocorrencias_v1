@@ -28,4 +28,9 @@ class TurmaService
         return $turma;
     }
 
+    public function delete(Turma $turma)
+    {
+        $turma->delete();
+    }
+
 }
