@@ -10,19 +10,28 @@ class TurmaControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_turma_was_created_successfully(): void
+    public function test_turma_creation_successfully(): void
     {
         $data = [
             'codigo' => '101'
         ];
 
-        $this->assertIsString($data['codigo'], 'O campo código deve ser do tipo string');
-        $this->assertLessThan(5, strlen($data['codigo']), 'O campo código deve ter no máximo 4 caracteres');
-
         $response = $this->postJson('/api/turma', $data);
 
         $this->assertEquals('101', $response->json()['codigo']);
         $response->assertStatus(201);
+    }
+
+    public function test_turma_creation_failed()
+    {
+        $data = [
+            'codigo' => null
+        ];
+
+        $response = $this->postJson('/api/turma', $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure(['message', 'errors']);
     }
 
     public function test_turma_get_all_successfully()
@@ -61,6 +70,20 @@ class TurmaControllerTest extends TestCase
 
         $this->assertEquals('101', $response->json()['codigo']);
         $response->assertStatus(200);
+    }
+
+    public function test_turma_update_failed()
+    {
+        $turma = Turma::factory()->create();
+
+        $data = [
+            'codigo' => null
+        ];
+
+        $response = $this->patchJson('/api/turma/' . $turma->id, $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure(['message', 'errors']);
     }
 
     public function test_turma_delete_successfully()
