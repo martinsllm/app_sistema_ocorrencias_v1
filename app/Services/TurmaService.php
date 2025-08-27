@@ -11,7 +11,7 @@ class TurmaService
         return Turma::all()->toArray();
     }
 
-    public function findByPk($id): Turma
+    public function findByPk($id): Turma|null
     {
         return Turma::find($id);
     }

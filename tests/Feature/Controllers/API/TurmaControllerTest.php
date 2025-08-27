@@ -58,6 +58,15 @@ class TurmaControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_turma_by_pk_not_found()
+    {
+        $response = $this->getJson('/api/turma/1');
+
+        $response->assertStatus(404);
+        $response->assertJsonStructure(['Erro'])
+            ->assertJson(['Erro' => "Recurso pesquisado não existe"]);
+    }
+
     public function test_turma_update_successfully()
     {
         $turma = Turma::factory()->create();
@@ -86,6 +95,19 @@ class TurmaControllerTest extends TestCase
         $response->assertJsonStructure(['message', 'errors']);
     }
 
+    public function test_turma_update_failed_404()
+    {
+        $data = [
+            'codigo' => '101'
+        ];
+
+        $response = $this->patchJson('/api/turma/1', $data);
+
+        $response->assertStatus(404);
+        $response->assertJsonStructure(['Erro'])
+            ->assertJson(['Erro' => "Impossível realizar a atualização. O recurso solicitado não existe"]);
+    }
+
     public function test_turma_delete_successfully()
     {
         $turma = Turma::factory()->create();
@@ -95,5 +117,14 @@ class TurmaControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure(['msg'])
             ->assertJson(['msg' => "Turma removida com sucesso!"]);
+    }
+
+    public function test_turma_delete_failed()
+    {
+        $response = $this->deleteJson('/api/turma/1');
+
+        $response->assertStatus(404);
+        $response->assertJsonStructure(['Erro'])
+            ->assertJson(['Erro' => "Impossível remover o registro. O recurso solicitado não existe"]);
     }
 }
