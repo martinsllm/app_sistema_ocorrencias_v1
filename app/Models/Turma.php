@@ -9,4 +9,9 @@ class Turma extends Model
 {
     use HasFactory;
     protected $fillable = ['codigo'];
+
+    public function estudantes()
+    {
+        $this->hasMany(Estudante::class);
+    }
 }

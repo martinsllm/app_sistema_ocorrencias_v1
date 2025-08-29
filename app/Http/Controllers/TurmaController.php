@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TurmaRequest;
+use App\Http\Requests\Turma\TurmaRequest;
 use App\Services\TurmaService;
-use Illuminate\Http\Request;
 
 class TurmaController extends Controller
 {
